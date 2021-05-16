@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Basket.Api.Rules.Validations;
+using System;
 
 namespace Basket.Api.Rules.Exeption
 {
     public class BusinessRuleValidationException : Exception
     {
-        public IBusinessRule BrokenRule { get; }
-
+        public RuleApprover Approver { get; }
         public string Details { get; }
 
-        public BusinessRuleValidationException(IBusinessRule brokenRule) : base(brokenRule.Message())
+        public BusinessRuleValidationException(RuleApprover approver) : base(approver.Message)
         {
-            BrokenRule = brokenRule;
-            this.Details = brokenRule.Message();
+            Approver = approver;
+            this.Details = approver.Message;
         }
 
         public override string ToString()
         {
-            return $"{BrokenRule.GetType().FullName}: {BrokenRule.Message()}";
+            return $"{Approver.GetType().FullName}: {Approver.Message}";
         }
     }
 }

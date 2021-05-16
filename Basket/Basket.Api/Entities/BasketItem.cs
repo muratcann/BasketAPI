@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Basket.Api.Entities
 {
-    public class BasketItem : Entity
+    public class BasketItem
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -18,8 +18,6 @@ namespace Basket.Api.Entities
 
         public static BasketItem CreateBasketItem(BasketItemModel basketItem, Product product, Coupon coupon)
         {
-            CheckRule(new ProductAndBasketItemRule(product, basketItem));
-
             var couponAmount = coupon?.Amount ?? 0;
             BasketItem newBasketItem = new BasketItem
             {

@@ -2,6 +2,7 @@
 using Basket.Api.Models;
 using Basket.Api.Repositories;
 using Basket.Api.Repositories.EntityFramework;
+using Basket.Api.Rules.Validations;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
@@ -24,6 +25,7 @@ namespace Basket.Api.Services
 
         public async Task<bool> AddBasketItem(BasketItemModel item)
         {
+            //if the product already exists, it will be updated.
             var currentBasketItem = await _basketRepository.GetBasketItemByProductId(item.UserId, item.ProductId);
             if (currentBasketItem != null)
             {
@@ -33,6 +35,7 @@ namespace Basket.Api.Services
             var product = await _repository.GetOneAsync<Product>(p => p.Id == item.ProductId);
             var user = await _repository.GetOneAsync<User>(p => p.Id == item.UserId);
 
+            //if there is a coupon for the product, it will be deducted from the price.
             var couponDb = await _redisCache.GetStringAsync($"coupon_{item.ProductId}");
             Coupon coupon = null;
             if (!String.IsNullOrEmpty(couponDb))
@@ -40,10 +43,21 @@ namespace Basket.Api.Services
                 coupon = JsonConvert.DeserializeObject<Coupon>(couponDb);
             }
 
+            //rule validation with Chain of Responsibility
+            CheckRule(product, item, user);
+
             var basketItem = BasketItem.CreateBasketItem(item, product, coupon);
             var userInfo = User.CreateUser(user);
 
             return await _basketRepository.AddBasketItem(basketItem);
+        }
+
+        private void CheckRule(Product product, BasketItemModel item, User user)
+        {
+            RuleApprover nonProduct = new NonProductApprover();
+            RuleApprover notAvailableProductStatus = new NotAvailableProductStatusApprover();
+            nonProduct.SetSuccessor(notAvailableProductStatus);
+            nonProduct.ProcessRequest(product, item, user);
         }
 
         public async Task<Models.Basket> GetBasket(int userId)

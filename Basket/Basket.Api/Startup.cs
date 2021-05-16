@@ -1,14 +1,17 @@
 ﻿using Basket.Api.Data;
+using Basket.Api.Logging.Implementations;
 using Basket.Api.Repositories;
 using Basket.Api.Repositories.EntityFramework;
 using Basket.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 
@@ -49,10 +52,15 @@ namespace Basket.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
+            app.UseApiExceptionHandler(options =>
+            {
+                options.AddResponseDetails = UpdateApiErrorResponse;
+                options.DetermineLogLevel = DetermineLogLevel;
+            });
+
             if (env.IsDevelopment())
             {
                 var context = serviceProvider.GetService<EFDbContext>();
-                //TestDataCreator.AddTestData(context);
                 var redisCache = serviceProvider.GetService<IDistributedCache>();
                 TestDataCreator testDataCreator = new TestDataCreator(redisCache);
                 testDataCreator.AddTestData(context);
@@ -72,6 +80,24 @@ namespace Basket.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private LogLevel DetermineLogLevel(Exception ex)
+        {
+            if (ex.Message.StartsWith("cannot open database", StringComparison.InvariantCultureIgnoreCase) ||
+                ex.Message.StartsWith("a network-related", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return LogLevel.Critical;
+            }
+            return LogLevel.Error;
+        }
+
+        private void UpdateApiErrorResponse(HttpContext context, Exception ex, ApiError error)
+        {
+            if (ex?.GetType().Name == nameof(Exception))
+            {
+                error.Detail = "Exception was a database exception!";
+            }
         }
     }
 }

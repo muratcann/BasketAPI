@@ -43,7 +43,6 @@ namespace Basket.Api.Data
 
             //coupons added to redis
             IList<Coupon> coupons = new List<Coupon>();
-            coupons.Add(new Coupon { Id = 1, ProductId = 1, Description = "product 1 coupon", Amount = 5 });
             coupons.Add(new Coupon { Id = 2, ProductId = 2, Description = "product 2 coupon", Amount = 10 });
             foreach (var item in coupons)
             {

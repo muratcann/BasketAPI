@@ -1,15 +1,14 @@
-using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Basket.Api.Data;
+using Basket.Api.Models;
+using Basket.Api.Repositories;
+using Basket.Api.Repositories.EntityFramework;
+using Basket.Api.Rules.Exeption;
 using Basket.Api.Services;
 using Basket.Test.SeedWork;
-using Basket.Api.Controllers;
-using Basket.Api.Models;
-using Basket.Api.Repositories.EntityFramework;
-using Basket.Api.Repositories;
 using Microsoft.Extensions.Caching.Distributed;
-using Basket.Api.Data;
-using Basket.Api.Rules.Exeption;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Basket.Test
 {
@@ -31,7 +30,6 @@ namespace Basket.Test
             _redisCache = serviceProvider.GetService<IDistributedCache>();
 
             _service = new BasketService(_basketRepository, _repositoryReadOnly, _redisCache);
-            //TestDataCreator.AddTestData(_eFDbContext);
             TestDataCreator testDataCreator = new TestDataCreator(_redisCache);
             testDataCreator.AddTestData(_eFDbContext);
         }
@@ -166,7 +164,7 @@ namespace Basket.Test
         }
 
         [TestMethod]
-        public async Task AddBasketItem_WithNonAvailableUserStatusTest()
+        public async Task AddBasketItem_WithNotAvailableUserStatusTest()
         {
             try
             {
@@ -192,16 +190,5 @@ namespace Basket.Test
 
             Assert.IsNotNull(result);
         }
-
-
-
-
-        /*
-        [TestMethod]
-        public async Task AddBasketItemWithCouponTest()
-        {
-
-        }
-        */
     }
 }

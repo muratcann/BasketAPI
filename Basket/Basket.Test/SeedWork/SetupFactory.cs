@@ -31,6 +31,7 @@ namespace Basket.Test.SeedWork
                 (
                     new BasketContext(configuration)
                 ));
+
             services.AddScoped<IBasketRepository, BasketRepository>();
 
             services.AddStackExchangeRedisCache(options =>

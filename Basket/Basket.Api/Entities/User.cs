@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Basket.Api.Entities
 {
-    public class User : Entity
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,8 +15,6 @@ namespace Basket.Api.Entities
 
         public static User CreateUser(User user)
         {
-            CheckRule(new UserRule(user));
-
             return user;
         }
     }
