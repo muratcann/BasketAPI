@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Basket.Model.Repositories
+namespace Basket.Api.Repositories.EntityFramework
 {
     public interface IRepositoryReadOnly
     {

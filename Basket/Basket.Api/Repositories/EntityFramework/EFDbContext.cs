@@ -1,7 +1,7 @@
-﻿using Basket.Model.Dto;
+﻿using Basket.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Basket.Model.EntityFramework
+namespace Basket.Api.Repositories.EntityFramework
 {
     public class EFDbContext : DbContext
     {
@@ -10,7 +10,6 @@ namespace Basket.Model.EntityFramework
         }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

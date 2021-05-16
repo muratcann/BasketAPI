@@ -1,6 +1,4 @@
-﻿using Basket.Model.Dto;
-using Basket.Model.Repositories;
-using Basket.Service.Interface;
+﻿using Basket.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +9,7 @@ namespace Basket.Service.Service
 {
     public class ProductService : IProductService
     {
+        /*
         private readonly IRepositoryReadOnly _iRepository;
         public ProductService(IRepositoryReadOnly iRepository)
         {
@@ -37,5 +36,6 @@ namespace Basket.Service.Service
             var product = await _iRepository.GetOneAsync<Product>(p => p.Id == productId);
             return product;
         }
+        */
     }
 }
