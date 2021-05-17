@@ -12,7 +12,7 @@ namespace Basket.Api.Rules.Validations
         public override string Message => "Order maximum quantity exceeded";
         public override void ProcessRequest(Product product, BasketItemModel basketItem, User user)
         {
-            if (product == null)
+            if (basketItem.Quantity > product.OrderMaximumQuantity)
             {
                 ThrowRuleException();
             }

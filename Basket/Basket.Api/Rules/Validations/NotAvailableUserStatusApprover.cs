@@ -9,10 +9,10 @@ namespace Basket.Api.Rules.Validations
 {
     public class NotAvailableUserStatusApprover : RuleApprover
     {
-        public override string Message => "Product not found";
+        public override string Message => "User status not available to purchase";
         public override void ProcessRequest(Product product, BasketItemModel basketItem, User user)
         {
-            if (product == null)
+            if (user.Status != 1)
             {
                 ThrowRuleException();
             }

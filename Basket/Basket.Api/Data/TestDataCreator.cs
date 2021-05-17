@@ -27,6 +27,7 @@ namespace Basket.Api.Data
                 products.Add(new Product { Id = 3, Name = "Kazak", Price = 60.00M, Photo = "", Description = "İnce Kazak", Stock = 70, OrderMinimumQuantity = 10, OrderMaximumQuantity = 100, Status = 1 });
                 products.Add(new Product { Id = 4, Name = "Çorap", Price = 15.00M, Photo = "", Description = "Soket Çorap", Stock = 60, OrderMinimumQuantity = 1, OrderMaximumQuantity = 100, Status = 0 });
                 products.Add(new Product { Id = 5, Name = "Ayakkabı", Price = 120.00M, Photo = "", Description = "Spor Ayakkabı", Stock = 0, OrderMinimumQuantity = 1, OrderMaximumQuantity = 100, Status = 1 });
+                products.Add(new Product { Id = 6, Name = "Ceket", Price = 150.00M, Photo = "", Description = "Deri Ceket", Stock = 1000, OrderMinimumQuantity = 5, OrderMaximumQuantity = 100, Status = 1 });
                 context.Products.AddRange(products);
             }
 

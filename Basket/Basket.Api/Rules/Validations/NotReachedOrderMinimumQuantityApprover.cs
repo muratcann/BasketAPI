@@ -12,7 +12,7 @@ namespace Basket.Api.Rules.Validations
         public override string Message => "Order minimum quantity not reached";
         public override void ProcessRequest(Product product, BasketItemModel basketItem, User user)
         {
-            if (product == null)
+            if (basketItem.Quantity < product.OrderMinimumQuantity)
             {
                 ThrowRuleException();
             }

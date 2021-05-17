@@ -12,7 +12,7 @@ namespace Basket.Api.Rules.Validations
         public override string Message => "There is no product stock";
         public override void ProcessRequest(Product product, BasketItemModel basketItem, User user)
         {
-            if (product == null)
+            if (product.Stock < basketItem.Quantity)
             {
                 ThrowRuleException();
             }

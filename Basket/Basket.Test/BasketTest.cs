@@ -94,7 +94,7 @@ namespace Basket.Test
             {
                 BasketItemModel basketItem = new BasketItemModel
                 {
-                    ProductId = 1,
+                    ProductId = 5,
                     Quantity = 10000,
                     UserId = 1
                 };
@@ -113,7 +113,7 @@ namespace Basket.Test
             {
                 BasketItemModel basketItem = new BasketItemModel
                 {
-                    ProductId = 3,
+                    ProductId = 6,
                     Quantity = 2,
                     UserId = 1
                 };
@@ -132,8 +132,8 @@ namespace Basket.Test
             {
                 BasketItemModel basketItem = new BasketItemModel
                 {
-                    ProductId = 2,
-                    Quantity = 222,
+                    ProductId = 6,
+                    Quantity = 110,
                     UserId = 1
                 };
                 await _service.AddBasketItem(basketItem);

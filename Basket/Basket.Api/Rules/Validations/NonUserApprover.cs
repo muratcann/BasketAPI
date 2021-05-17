@@ -9,10 +9,10 @@ namespace Basket.Api.Rules.Validations
 {
     public class NonUserApprover : RuleApprover
     {
-        public override string Message => "Product not found";
+        public override string Message => "User not found";
         public override void ProcessRequest(Product product, BasketItemModel basketItem, User user)
         {
-            if (product == null)
+            if (user == null)
             {
                 ThrowRuleException();
             }

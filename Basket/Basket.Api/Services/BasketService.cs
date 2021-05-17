@@ -56,7 +56,19 @@ namespace Basket.Api.Services
         {
             RuleApprover nonProduct = new NonProductApprover();
             RuleApprover notAvailableProductStatus = new NotAvailableProductStatusApprover();
+            RuleApprover noProductStock = new NoProductStockApprover();
+            RuleApprover notReachedOrderMinimumQuantity = new NotReachedOrderMinimumQuantityApprover();
+            RuleApprover exceededOrderMaximumQuantity = new ExceededOrderMaximumQuantityApprover();
+            RuleApprover nonUser = new NonUserApprover();
+            RuleApprover notAvailableUserStatus = new NotAvailableUserStatusApprover();
+
             nonProduct.SetSuccessor(notAvailableProductStatus);
+            notAvailableProductStatus.SetSuccessor(noProductStock);
+            noProductStock.SetSuccessor(notReachedOrderMinimumQuantity);
+            notReachedOrderMinimumQuantity.SetSuccessor(exceededOrderMaximumQuantity);
+            exceededOrderMaximumQuantity.SetSuccessor(nonUser);
+            nonUser.SetSuccessor(notAvailableUserStatus);
+
             nonProduct.ProcessRequest(product, item, user);
         }
 
